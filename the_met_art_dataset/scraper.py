@@ -3,16 +3,14 @@ import os
 import json
 import time
 
-def scrape_met_paintings(query="paintings", limit=2):
+def scrape_met_paintings(params: dict, limit=200):
     # 1. Search for Highlights in 'Paintings' medium
     url = "https://collectionapi.metmuseum.org/public/collection/v1/search"
-    params = {
-        "isHighlight": "true",
-        "medium": "Paintings",
-        "q": query
-    }
+
     
-    ids = requests.get(url, params=params).json().get('objectIDs', [])[:limit]
+    response = requests.get(url, params=params)
+    print(f"Full URL sent by Python: {response.url}")
+    ids = response.json().get('objectIDs', [])[:limit]
     print(ids)
     db = []
     os.makedirs("data/raw/images", exist_ok=True)
@@ -70,9 +68,17 @@ def scrape_met_paintings(query="paintings", limit=2):
                         })
             print(f"✅ Downloaded: {obj.get('title')}")
             time.sleep(0.5) # Be kind to their servers!
+        else:
+            print(f"Photo {oid} not of public domain")
 
     with open("data/raw/art_db.json", "w") as f:
         json.dump(db, f, indent=4)
 
 if __name__ == "__main__":
-    scrape_met_paintings()
+    params = {
+    "isHighlight": "true",
+    #"medium": "Paintings",
+    "departmentId": 19,
+    "q": "*"
+    }
+    scrape_met_paintings(params)
