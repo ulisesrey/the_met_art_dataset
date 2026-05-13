@@ -28,6 +28,10 @@ dependencies = [
 ]
 requires-python = "~=3.12.0"
 
+[project.urls]
+Documentation = "https://ulisesrey.github.io/the_met_art_dataset/"
+Repository = "https://github.com/ulisesrey/the_met_art_dataset"
+
 
 [tool.ruff]
 line-length = 99
