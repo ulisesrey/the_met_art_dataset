@@ -1,3 +1,12 @@
+"""Filter Met Museum artwork records by department keyword.
+
+Reads a JSON database of artwork entries, removes any records whose
+``department`` field contains a specified keyword (case-insensitive), and
+writes the cleaned dataset to a new file.
+
+Input:  ``data/raw/highlight_paintings_db.json``
+Output: ``data/raw/highlight_non_asian_paintings_db.json``
+"""
 import json
 
 

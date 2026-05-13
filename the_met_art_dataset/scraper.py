@@ -4,6 +4,18 @@ import json
 import time
 
 def scrape_met_paintings(params: dict, limit=200):
+    """Scrape artwork metadata and images from the Met Museum public API.
+
+    Searches the Met collection using the given query parameters, then for each
+    result fetches object metadata and downloads the primary image if it is
+    public domain. Results are saved to ``data/raw/art_db.json`` and images to
+    ``data/raw/images/<id>.jpg``.
+
+    Args:
+        params: Query parameters forwarded to the Met search endpoint
+            (e.g. ``isHighlight``, ``departmentId``, ``q``).
+        limit: Maximum number of object IDs to process. Defaults to 200.
+    """
     # 1. Search for Highlights in 'Paintings' medium
     url = "https://collectionapi.metmuseum.org/public/collection/v1/search"
 
