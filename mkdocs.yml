@@ -1,0 +1,17 @@
+site_name: the_met_art_dataset
+site_description: A Python toolkit for scraping and filtering artwork from the Met Museum API.
+site_author: Ulises Rey
+
+theme:
+  name: readthedocs
+  palette:
+    primary: black
+    accent: deep orange
+  features:
+    - navigation.sections
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - API Reference: api-reference.md
