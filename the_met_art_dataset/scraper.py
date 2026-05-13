@@ -4,7 +4,11 @@ import os
 import json
 import time
 
-def scrape_met_paintings(params: dict, limit=200, output="data/raw/art_db.json"):
+def scrape_met_paintings(
+    params: dict, 
+    limit: int = 200, 
+    output: str = "data/raw/art_db.json"
+    ):
     """Scrape artwork metadata and images from the Met Museum public API.
 
     Searches the Met collection using the given query parameters, then for each
