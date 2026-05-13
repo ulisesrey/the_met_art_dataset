@@ -1,0 +1,7 @@
+{
+    "isHighlight": true,
+    "departmentId": 19,
+    "q": "*",
+    "limit": 200,
+    "output": "data/raw/highlight_paintings_db.json"
+}

@@ -1,34 +1,41 @@
-"""Filter Met Museum artwork records by department keyword.
-
-Reads a JSON database of artwork entries, removes any records whose
-``department`` field contains a specified keyword (case-insensitive), and
-writes the cleaned dataset to a new file.
-
-Input:  ``data/raw/highlight_paintings_db.json``
-Output: ``data/raw/highlight_non_asian_paintings_db.json``
-"""
+"""Filter Met Museum artwork records by department keyword."""
+import argparse
 import json
 
 
+def filter_by_department(source: str, output: str, exclude: str) -> None:
+    """Filter artwork records by excluding a department keyword.
+
+    Reads a JSON database of artwork entries, removes any records whose
+    ``department`` field contains the given keyword (case-insensitive), and
+    writes the cleaned dataset to a new file.
+
+    Args:
+        source: Path to the input JSON file.
+        output: Path to write the filtered JSON file.
+        exclude: Keyword to exclude from the ``department`` field.
+    """
+    with open(source, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    filtered_data = [
+        item for item in data
+        if exclude.lower() not in item.get('department', '').lower()
+    ]
+
+    with open(output, 'w', encoding='utf-8') as f:
+        json.dump(filtered_data, f, indent=4, ensure_ascii=False)
+
+    print(f"Original entries: {len(data)}")
+    print(f"Cleaned entries:  {len(filtered_data)}")
+    print(f"Removed:          {len(data) - len(filtered_data)}")
 
 
-# 1. Load your existing JSON
-JSON_FILEPATH_SOURCE = "data/raw/highlight_paintings_db.json"
-JSON_FILEPATH_OUTPUT = "data/raw/highlight_non_asian_paintings_db.json"
-with open(JSON_FILEPATH_SOURCE, 'r', encoding='utf-8') as f:
-    data = json.load(f)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Filter Met artwork records by department keyword.")
+    parser.add_argument("--input", default="data/raw/highlight_paintings_db.json", help="Input JSON file path.")
+    parser.add_argument("--output", default="data/raw/highlight_non_asian_paintings_db.json", help="Output JSON file path.")
+    parser.add_argument("--exclude", default="asian", help="Department keyword to exclude (case-insensitive). Defaults to 'asian'.")
+    args = parser.parse_args()
 
-# 2. Filter out any entry where WORD is in the department name
-WORD="asian"
-filtered_data = [
-    item for item in data 
-    if WORD not in item.get('department', '').lower()
-]
-
-# 3. Save the cleaned version
-with open(JSON_FILEPATH_OUTPUT, 'w', encoding='utf-8') as f:
-    json.dump(filtered_data, f, indent=4, ensure_ascii=False)
-
-print(f"Original entries: {len(data)}")
-print(f"Cleaned entries: {len(filtered_data)}")
-print(f"Removed: {len(data) - len(filtered_data)}")
+    filter_by_department(source=args.input, output=args.output, exclude=args.exclude)

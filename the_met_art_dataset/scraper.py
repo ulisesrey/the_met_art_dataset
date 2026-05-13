@@ -1,20 +1,21 @@
+import argparse
 import requests
 import os
 import json
 import time
 
-def scrape_met_paintings(params: dict, limit=200):
+def scrape_met_paintings(params: dict, limit=200, output="data/raw/art_db.json"):
     """Scrape artwork metadata and images from the Met Museum public API.
 
     Searches the Met collection using the given query parameters, then for each
     result fetches object metadata and downloads the primary image if it is
-    public domain. Results are saved to ``data/raw/art_db.json`` and images to
-    ``data/raw/images/<id>.jpg``.
+    public domain. Images are saved to ``data/raw/images/<id>.jpg``.
 
     Args:
         params: Query parameters forwarded to the Met search endpoint
             (e.g. ``isHighlight``, ``departmentId``, ``q``).
         limit: Maximum number of object IDs to process. Defaults to 200.
+        output: Path to the output JSON file. Defaults to ``data/raw/art_db.json``.
     """
     # 1. Search for Highlights in 'Paintings' medium
     url = "https://collectionapi.metmuseum.org/public/collection/v1/search"
@@ -83,14 +84,19 @@ def scrape_met_paintings(params: dict, limit=200):
         else:
             print(f"Photo {oid} not of public domain")
 
-    with open("data/raw/art_db.json", "w") as f:
+    with open(output, "w") as f:
         json.dump(db, f, indent=4)
 
 if __name__ == "__main__":
-    params = {
-    "isHighlight": "true",
-    #"medium": "Paintings",
-    "departmentId": 19,
-    "q": "*"
-    }
-    scrape_met_paintings(params)
+    parser = argparse.ArgumentParser(description="Scrape artwork from the Met Museum public API using a config file.")
+    parser.add_argument("-config", required=True, help="Path to JSON config file with scraping parameters.")
+    args = parser.parse_args()
+
+    with open(args.config, 'r') as f:
+        config = json.load(f)
+
+    params = {k: v for k, v in config.items() if k not in ['limit', 'output']}
+    limit = config.get('limit', 200)
+    output = config.get('output', 'data/raw/art_db.json')
+
+    scrape_met_paintings(params, limit=limit, output=output)
