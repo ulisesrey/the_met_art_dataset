@@ -19,6 +19,8 @@ dependencies = [
     "material>=0.1",
     "mkdocs",
     "mkdocs-material>=9.7.6",
+    "mkdocstrings>=1.0.4",
+    "mkdocstrings-python>=2.0.3",
     "pip",
     "python-dotenv",
     "requests>=2.34.0",
