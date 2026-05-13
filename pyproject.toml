@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "the_met_art_dataset"
-version = "0.0.1"
+version = "1.0.0"
 description = "A small python package to use The Metropolitan Museum of NYC to create an art dataset."
 authors = [
   { name = "Ulises Rey" },
