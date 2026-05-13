@@ -7,13 +7,13 @@ import time
 def scrape_met_paintings(
     params: dict, 
     limit: int = 200, 
-    output: str = "data/raw/art_db.json"
+    output: str = "data/dbs/art_db.json"
     ):
     """Scrape artwork metadata and images from the Met Museum public API.
 
     Searches the Met collection using the given query parameters, then for each
     result fetches object metadata and downloads the primary image if it is
-    public domain. Images are saved to ``data/raw/images/<id>.jpg``.
+    public domain. Images are saved to ``data/images/<id>.jpg``.
 
     Args:
         params: Query parameters forwarded to the Met search endpoint
@@ -30,7 +30,7 @@ def scrape_met_paintings(
     ids = response.json().get('objectIDs', [])[:limit]
     # print(ids)
     db = []
-    os.makedirs("data/raw/images", exist_ok=True)
+    os.makedirs("data/images", exist_ok=True)
 
     for oid in ids:
         # 2. Get Object Data
@@ -54,7 +54,7 @@ def scrape_met_paintings(
         # 3. Check for image and Public Domain
         if obj.get('primaryImage') and obj.get('isPublicDomain'):
             img_url = obj.get('primaryImage')
-            file_name = f"data/raw/images/{oid}.jpg"
+            file_name = f"data/images/{oid}.jpg"
             
             #4. Download Image
             img_data = requests.get(img_url).content
@@ -103,6 +103,6 @@ if __name__ == "__main__":
 
     params = {k: v for k, v in config.items() if k not in ['limit', 'output']}
     limit = config.get('limit', 200)
-    output = config.get('output', 'data/raw/art_db.json')
+    output = config.get('output', 'data/dbs/art_db.json')
 
     scrape_met_paintings(params, limit=limit, output=output)

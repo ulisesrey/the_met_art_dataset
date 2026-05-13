@@ -33,8 +33,8 @@ def filter_by_department(source: str, output: str, exclude: str) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Filter Met artwork records by department keyword.")
-    parser.add_argument("--input", default="data/raw/highlight_paintings_db.json", help="Input JSON file path.")
-    parser.add_argument("--output", default="data/raw/highlight_non_asian_paintings_db.json", help="Output JSON file path.")
+    parser.add_argument("--input", default="data/dbs/highlight_paintings_db.json", help="Input JSON file path.")
+    parser.add_argument("--output", default="data/dbs/highlight_filtered_paintings_db.json", help="Output JSON file path.")
     parser.add_argument("--exclude", default="european", help="Department keyword to exclude (case-insensitive). Defaults to 'european'.")
     args = parser.parse_args()
 
