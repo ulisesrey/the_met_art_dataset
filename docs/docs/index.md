@@ -1,10 +1,19 @@
-# the_met_art_dataset documentation!
+# the_met_art_dataset
 
-## Description
+A Python toolkit for scraping and filtering artwork metadata and images from the [Metropolitan Museum of Art's public API](https://metmuseum.github.io/).
 
-A small python package to use The Metropolitan Museum of NYC to create an art dataset.
+## Features
 
-## Commands
+- Search the Met collection using flexible query parameters
+- Download public domain artwork images automatically
+- Save structured metadata to JSON for downstream use
+- Filter records by department keyword
 
-The Makefile contains the central entry points for common tasks related to this project.
+## Quick Start
 
+```bash
+uv sync
+make scrape
+```
+
+See the [Getting Started](getting-started.md) guide for full setup instructions.
