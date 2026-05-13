@@ -16,7 +16,9 @@ classifiers = [
     "License :: OSI Approved :: MIT License"
 ]
 dependencies = [
+    "material>=0.1",
     "mkdocs",
+    "mkdocs-material>=9.7.6",
     "pip",
     "python-dotenv",
     "requests>=2.34.0",
