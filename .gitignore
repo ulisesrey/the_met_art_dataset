@@ -1,5 +1,5 @@
 # Data
-/data/
+#/data/
 
 # Mac OS-specific storage files
 .DS_Store
@@ -189,3 +189,4 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+data/images/*.jpg
