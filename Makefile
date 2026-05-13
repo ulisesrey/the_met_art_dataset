@@ -4,20 +4,16 @@
 
 PROJECT_NAME = the_met_art_dataset
 PYTHON_VERSION = 3.12
-PYTHON_INTERPRETER = python
+PYTHON_INTERPRETER = uv run
 
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
 
-
 ## Install Python dependencies
 .PHONY: requirements
 requirements:
 	uv sync
-	
-
-
 
 ## Delete all compiled Python files
 .PHONY: clean
@@ -25,39 +21,15 @@ clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
+## Scrape artwork from the Met Museum API
+.PHONY: scrape
+scrape:
+	$(PYTHON_INTERPRETER) the_met_art_dataset/scraper.py -config the_met_art_dataset/config.json
 
-## Lint using ruff (use `make format` to do formatting)
-.PHONY: lint
-lint:
-	ruff format --check
-	ruff check
-
-## Format source code with ruff
-.PHONY: format
-format:
-	ruff check --fix
-	ruff format
-
-
-
-
-
-## Set up Python interpreter environment
-.PHONY: create_environment
-create_environment:
-	uv venv --python $(PYTHON_VERSION)
-	@echo ">>> New uv virtual environment created. Activate with:"
-	@echo ">>> Windows: .\\\\.venv\\\\Scripts\\\\activate"
-	@echo ">>> Unix/macOS: source ./.venv/bin/activate"
-	
-
-
-
-#################################################################################
-# PROJECT RULES                                                                 #
-#################################################################################
-
-
+## Filter artwork records by department keyword
+.PHONY: filter
+filter:
+	$(PYTHON_INTERPRETER) the_met_art_dataset/filter.py
 
 #################################################################################
 # Self Documenting Commands                                                     #
