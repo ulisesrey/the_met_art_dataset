@@ -1,6 +1,12 @@
-# the_met_art_dataset
+# The Met Art Dataset Builder
 
 A Python toolkit for scraping and filtering artwork metadata and images from the Metropolitan Museum of Art's public API.
+
+## Documentation
+
+A full documentation can be found here: 
+
+[![Documentation](https://img.shields.io/badge/docs-MkDocs-blue.svg)](https://ulisesrey.github.io/the_met_art_dataset/)
 
 ## Installation
 
