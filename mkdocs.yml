@@ -16,3 +16,7 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - API Reference: api-reference.md
+
+plugins:
+  - search
+  - mkdocstrings
