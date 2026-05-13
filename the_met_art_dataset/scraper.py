@@ -24,7 +24,7 @@ def scrape_met_paintings(params: dict, limit=200, output="data/raw/art_db.json")
     response = requests.get(url, params=params)
     print(f"Full URL sent by Python: {response.url}")
     ids = response.json().get('objectIDs', [])[:limit]
-    print(ids)
+    # print(ids)
     db = []
     os.makedirs("data/raw/images", exist_ok=True)
 
@@ -41,8 +41,10 @@ def scrape_met_paintings(params: dict, limit=200, output="data/raw/art_db.json")
             print(f"❌ Failed to fetch ID {oid}: Status {response.status_code}. Skipping.")
             # If you get a 429 (Too Many Requests), wait a bit longer
             if response.status_code == 429:
-                print("🚦 Rate limit hit. Sleeping for 5 seconds...")
+                print("         🚦 Rate limit hit. Sleeping for 5 seconds...")
                 time.sleep(5)
+            elif response.status_code == 403:
+                print(f"        🔒 Access forbidden. Skipping.")
             continue
         
         # 3. Check for image and Public Domain
@@ -79,7 +81,7 @@ def scrape_met_paintings(params: dict, limit=200, output="data/raw/art_db.json")
                 "primary_image_small": obj.get('primaryImageSmall'),
                 "local_path": file_name
                         })
-            print(f"✅ Downloaded: {obj.get('title')}")
+            print(f"✅ Saved '{obj.get('title')}' as {oid}.jpg")
             time.sleep(0.5) # Be kind to their servers!
         else:
             print(f"Photo {oid} not of public domain")
